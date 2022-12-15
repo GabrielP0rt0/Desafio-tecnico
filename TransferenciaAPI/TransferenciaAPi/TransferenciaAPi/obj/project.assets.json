@@ -2430,11 +2430,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projetos\\Nova Chance\\Desafio-Wise\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
+      "projectUniqueName": "D:\\Projetos\\Nova Chance\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
       "projectName": "TransferenciaAPi",
-      "projectPath": "D:\\Projetos\\Nova Chance\\Desafio-Wise\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
+      "projectPath": "D:\\Projetos\\Nova Chance\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
       "packagesPath": "C:\\Users\\Murilo.SELETTRA\\.nuget\\packages\\",
-      "outputPath": "D:\\Projetos\\Nova Chance\\Desafio-Wise\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\obj\\",
+      "outputPath": "D:\\Projetos\\Nova Chance\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

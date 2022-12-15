@@ -12,10 +12,10 @@ namespace TransferenciaAPi.Data.Entidades
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Column("id_usuario_origem")]
-        public int IdUsuarioOrigem { get; set; }
-        [Column("id_usuario_destino")]
-        public int IdUsuarioDestino { get; set; }
+        [Column("id_public_origem")]
+        public int IdPublicOrigem { get; set; }
+        [Column("id_public_destino")]
+        public int IdPublicDestino { get; set; }
         [Column("valor")]
         public decimal Valor { get; set; }
         [Column("data_hora")]

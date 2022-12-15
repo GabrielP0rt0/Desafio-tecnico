@@ -45,7 +45,7 @@ builder.Services.AddScoped<AutorizacaoServices>();
 builder.Services.AddScoped<TransferenciaService>();
 //configurção do banco de dados, no meu caso estou utilizando Mysql
 builder.Services.AddDbContext<DBContext>(options =>
-    options.UseMySQL("server=localhost;port=3306;user=root;password=1234;database=ApiDb;")
+    options.UseMySQL("server=localhost;port=3306;user=root;password=1234;database=ApiDbV2;")
 );
 builder.Services.AddAuthentication(x =>
 {

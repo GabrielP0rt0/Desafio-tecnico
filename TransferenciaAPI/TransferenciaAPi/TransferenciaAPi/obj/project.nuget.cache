@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "I2vOHp8YS9wTMMYTkgMvxIHxOaPb3LgKR6SRu0Lz5ZQb3ttbAxUAc4s8nvD6hs4ABlp1XtuUEKafd8suhlCOFw==",
+  "dgSpecHash": "ig6PoyhriHAtVUnzjDEIEPhZGpp7r46X8+eszXj9NHQNhEOOtI+Gek0G1Cn1w5swuGT+VzL7ctfjbd1x6szJyg==",
   "success": true,
-  "projectFilePath": "D:\\Projetos\\Nova Chance\\Desafio-Wise\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
+  "projectFilePath": "D:\\Projetos\\Nova Chance\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Murilo.SELETTRA\\.nuget\\packages\\google.protobuf\\3.19.4\\google.protobuf.3.19.4.nupkg.sha512",
     "C:\\Users\\Murilo.SELETTRA\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",

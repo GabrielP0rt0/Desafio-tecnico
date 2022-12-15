@@ -5,8 +5,9 @@
         /// <summary>
         /// Dados de requisição do método Transferir
         /// </summary>
-        public int IdContaOrigem { get; set; }
-        public int IdContaDestino { get; set; }
+        public int IdPrivateOrigem { get; set; }
+        public int IdPublicDestino { get; set; }
+        public int IdPublicOrigem { get; set; }
         public decimal ValorTransferencia { get; set; }
     }
 }

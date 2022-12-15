@@ -25,12 +25,12 @@ namespace TransferenciaAPi.Controllers
         /// <param name="ConsultarExtrato"></param>
         /// <returns></returns>
         [Authorize(Roles = Claims.camada1)]
-        [HttpGet("consultar/extrato/{idConta}")] ///como a entrada é do tipo int deve ser enviada na URL
-        public IActionResult ConsultarExtrato([FromRoute] int idConta)
+        [HttpGet("consultar/extrato/{idPublicConta}")] ///como a entrada é do tipo int deve ser enviada na URL
+        public IActionResult ConsultarExtrato([FromRoute] int idPublicConta)
         {
-            if (idConta == 0)
+            if (idPublicConta == 0)
                 BadRequest("requisição inválida, insira a identificação da conta");
-            var response = _transferenciaService.ConsultarExtrato(idConta);
+            var response = _transferenciaService.ConsultarExtrato(idPublicConta);
             return Ok(response);
         }
 
@@ -45,10 +45,10 @@ namespace TransferenciaAPi.Controllers
         public IActionResult Transferir([FromBody] TransferirRequestModel request)
         {
             //faz todas as verificações necessárias para garantir que o obejto será enviado corretamente
-            if (request.IdContaDestino == 0)
-                return BadRequest("A identificação da conta destino não deve ser nula");
-            if (request.IdContaOrigem == 0)
+            if (request.IdPrivateOrigem == 0)
                 return BadRequest("A identificação da conta atual não deve ser nula");
+            if (request.IdPublicDestino == 0)
+                return BadRequest("A identificação da conta destino não deve ser nula");
             if (request.ValorTransferencia == 0)
                 return BadRequest("O valor a ser transferido não pode ser nulo");
             var response = _transferenciaService.Transferir(request);

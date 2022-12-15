@@ -162,3 +162,8 @@ D:\Projetos\Nova Chance\Desafio-Wise\TransferenciaAPI\TransferenciaAPi\Transfere
 D:\Projetos\Nova Chance\Desafio-Wise\TransferenciaAPI\TransferenciaAPi\TransferenciaAPi\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Projetos\Nova Chance\Desafio-Wise\TransferenciaAPI\TransferenciaAPi\TransferenciaAPi\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\Projetos\Nova Chance\Desafio-Wise\TransferenciaAPI\TransferenciaAPi\TransferenciaAPi\obj\Debug\net6.0\TransferenciaAPi.MvcApplicationPartsAssemblyInfo.cs
+D:\Projetos\Nova Chance\TransferenciaAPI\TransferenciaAPi\TransferenciaAPi\obj\Debug\net6.0\TransferenciaAPi.MvcApplicationPartsAssemblyInfo.cs
+D:\Projetos\Nova Chance\TransferenciaAPI\TransferenciaAPi\TransferenciaAPi\bin\Debug\net6.0\Microsoft.OpenApi.dll
+D:\Projetos\Nova Chance\TransferenciaAPI\TransferenciaAPi\TransferenciaAPi\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\Projetos\Nova Chance\TransferenciaAPI\TransferenciaAPi\TransferenciaAPi\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Projetos\Nova Chance\TransferenciaAPI\TransferenciaAPi\TransferenciaAPi\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll

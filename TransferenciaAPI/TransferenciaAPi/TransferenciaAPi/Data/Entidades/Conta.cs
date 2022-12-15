@@ -14,8 +14,10 @@ namespace TransferenciaAPi.Data.Entidades
         public int Id { get; set; }
         [Column("id_conta")]
         public int IdConta { get; set; }
-        [Column("id_usuario")]
-        public int IdUsuario { get; set; }
+        [Column("id_usuario_private")]
+        public int IdUsuarioPrivate { get; set; }
+        [Column("id_usuario_public")]
+        public int IdUsuarioPublic { get; set; }
         [Column("saldo")]
         public decimal Saldo { get; set; }
     }

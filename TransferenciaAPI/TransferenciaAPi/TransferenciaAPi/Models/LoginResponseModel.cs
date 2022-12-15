@@ -8,6 +8,8 @@ namespace TransferenciaAPi.Models
     public class LoginResponseModel
     {
         public int IdConta { get; set; }
+        public int IdContaPublic { get; set; }
+        public int IdContaPrivate { get; set; }
         public string StatusMensagem { get; set; }
         public bool StatusLogin { get; set; }
         public decimal Saldo { get; set; }

@@ -33,7 +33,7 @@ namespace TransferenciaAPi.Services
                 { 
                     StatusCadastro = false,             
                     MensagemCadastro = "Usuário já cadastrado",
-                    Token = 0,
+                    Token = "",
                     IdConta = 0
                 };
             //caso não exista email semelhante, o usuário é criado
@@ -46,12 +46,15 @@ namespace TransferenciaAPi.Services
             //adiciona o usuário na tabela de usuários e aplica as mudanças
             _context.Usuarios.Add(usuario);
             _context.SaveChanges();
-            var idConta = GeraIdConta();    //chama a private function que cria o id randomicamente 
+            var idContaPrivate = GeraIdConta(1);
+            var idContaPublic = GeraIdConta(2);
+            //chama a private function que cria o id randomicamente 
             //transfere os dados criados para a tabela de Conta e adiciona um saldo de 100 reais automaticamente
             _context.Conta.Add(new()
             {
-                IdConta = idConta,
-                IdUsuario = usuario.Id,
+                IdConta = usuario.Id,
+                IdUsuarioPrivate = idContaPrivate,
+                IdUsuarioPublic = idContaPublic,
                 Saldo = 100
             }) ;
 
@@ -64,7 +67,9 @@ namespace TransferenciaAPi.Services
                 Token = token,
                 MensagemCadastro = "tudo certo com o cadastro!",
                 StatusCadastro = true,
-                IdConta = idConta
+                IdConta = usuario.Id,
+                IdContaPrivate = idContaPrivate,
+                IdContaPublic = idContaPublic
             };
 
         }
@@ -99,6 +104,8 @@ namespace TransferenciaAPi.Services
             LoginResponseModel retornaUsuario = new()
             {
                 IdConta = usuarioConta.IdConta,
+                IdContaPrivate = usuarioConta.IdUsuarioPrivate,
+                IdContaPublic = usuarioConta.IdUsuarioPublic,
                 StatusMensagem = "login realizado com sucesso",
                 StatusLogin = true,
                 Saldo = usuarioConta.Saldo,
@@ -116,7 +123,7 @@ namespace TransferenciaAPi.Services
         /// Essa função gera um ID de conta único e de forma aleatória, buscando sempre um número entre 1 e 1000000000 e retorna para a função de criação de usuários
         /// </summary>
         /// <returns></returns>
-        private int GeraIdConta()
+        private int GeraIdConta(int tipoConta)
         {
             int min = 1;            //número mínimo possível
             int max = 1000000000;      //número máximo possível
@@ -125,10 +132,12 @@ namespace TransferenciaAPi.Services
             int randomIdConta = rnd.Next(min, max);
             //verifica se já existe um id da conta igual, caso exista a função é chamada novamente e um novo Id é criado, isso acontece até que 
             //um número válido seja criado
-            var idContaUnico = _context.Conta.Where(x => x.IdConta.Equals(randomIdConta)).FirstOrDefault(); 
-
-            if (idContaUnico != null)
-                return GeraIdConta();
+            var idContaPrivateUnico = _context.Conta.Where(x => x.IdUsuarioPrivate.Equals(randomIdConta)).FirstOrDefault();
+            var idContaPublicUnica = _context.Conta.Where(x => x.IdUsuarioPublic.Equals(randomIdConta)).FirstOrDefault();
+            if (tipoConta == 1 && idContaPrivateUnico != null)
+                return GeraIdConta(1);
+            if (tipoConta == 2 && idContaPublicUnica != null)
+                return GeraIdConta(2);
             return randomIdConta;
         }
         /// <summary>

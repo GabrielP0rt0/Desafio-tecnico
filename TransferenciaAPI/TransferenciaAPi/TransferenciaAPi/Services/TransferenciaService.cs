@@ -17,9 +17,9 @@ namespace TransferenciaAPi.Services
         /// </summary>
         /// <param name="ConsultarExtrato"></param>
         /// <returns></returns>
-        public List<Extrato>  ConsultarExtrato(int idConta)
+        public List<Extrato>  ConsultarExtrato(int idPublicConta)
         {
-            var extrato = _context.Extrato.Where(x => x.IdUsuarioOrigem.Equals(idConta)).ToList();
+            var extrato = _context.Extrato.Where(x => x.IdPublicOrigem.Equals(idPublicConta)).ToList();
             return extrato;
         }
         /// <summary>
@@ -31,7 +31,7 @@ namespace TransferenciaAPi.Services
         /// <returns></returns>
         public TransferirResponseModel Transferir(TransferirRequestModel request)
         {
-            var contaOrigem = _context.Conta.Where(x => x.IdConta.Equals(request.IdContaOrigem)).FirstOrDefault();
+            var contaOrigem = _context.Conta.Where(x => x.IdUsuarioPrivate.Equals(request.IdPrivateOrigem)).FirstOrDefault();
             /*_context.Update(_context.Conta.Where(x => x.IdConta.Equals(request.IdContaOrigem);*/
             if (contaOrigem == null)
                 return new()
@@ -39,7 +39,7 @@ namespace TransferenciaAPi.Services
                     StatusMensagem = "Conta de origem não encontrada",
                     StatusTransferencia = false
                 };
-            var contaDestino = _context.Conta.Where(x => x.IdConta.Equals(request.IdContaDestino)).FirstOrDefault();
+            var contaDestino = _context.Conta.Where(x => x.IdUsuarioPublic.Equals(request.IdPublicDestino)).FirstOrDefault();
             if (contaDestino == null)
                 return new() 
                 { 
@@ -58,8 +58,8 @@ namespace TransferenciaAPi.Services
             contaDestino.Saldo = contaDestino.Saldo + request.ValorTransferencia;
             _context.Extrato.Add(new()
             {
-                IdUsuarioOrigem = request.IdContaOrigem,
-                IdUsuarioDestino = request.IdContaDestino,
+                IdPublicOrigem = request.IdPublicOrigem,
+                IdPublicDestino = request.IdPublicDestino,
                 Valor = request.ValorTransferencia,
                 DataHora = DateTime.Now
             });
