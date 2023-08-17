@@ -22,39 +22,22 @@ namespace TransferenciaAPi.Controllers
         /// Endpoint responsável por retornar uma lista do histórico de transação do usuário desejado, esse método requer um token de acesso gerado no método de login ou cadastro encontrado
         /// em AutorizacaoService || AutorizacaoController
         /// </summary>
-        /// <param name="ConsultarExtrato"></param>
+        /// <param name="ConsultStatement"></param>
         /// <returns></returns>
-        [Authorize(Roles = Claims.camada1)]
-        [HttpGet("consultar/extrato/{idPublicConta}")] ///como a entrada é do tipo int deve ser enviada na URL
-        public IActionResult ConsultarExtrato([FromRoute] int idPublicConta)
-        {
-            if (idPublicConta == 0)
-                BadRequest("requisição inválida, insira a identificação da conta");
-            var response = _transferenciaService.ConsultarExtrato(idPublicConta);
-            return Ok(response);
-        }
+        [Authorize(Roles = Claims.level1)]
+        [HttpGet("consult/statement/{idAccount}")] ///como a entrada é do tipo int deve ser enviada na URL
+        public async Task<IActionResult> ConsultStatement([FromRoute] int idAccount) =>
+            await _transferenciaService.ConsultStatement(idAccount);
 
         /// <summary>
         /// Endpoint responsável por gerar uma transação entre usuários e fazer seu cadastro em um banco de dados que serve como histórico, esse método 
         /// requer um token de acesso gerado no método de login ou cadastro encontrado em AutorizacaoService || AutorizacaoController
         /// </summary>
-        /// <param name="ConsultarExtrato"></param>
+        /// <param name="Transfer"></param>
         /// <returns></returns>
-        [Authorize(Roles = Claims.camada1)]
-        [HttpPost("transferir")]
-        public IActionResult Transferir([FromBody] TransferirRequestModel request)
-        {
-            //faz todas as verificações necessárias para garantir que o obejto será enviado corretamente
-            if (request.IdPrivateOrigem == 0)
-                return BadRequest("A identificação da conta atual não deve ser nula");
-            if (request.IdPublicDestino == 0)
-                return BadRequest("A identificação da conta destino não deve ser nula");
-            if (request.ValorTransferencia == 0)
-                return BadRequest("O valor a ser transferido não pode ser nulo");
-            var response = _transferenciaService.Transferir(request);
-            if (!response.StatusTransferencia)
-                return BadRequest(response.StatusMensagem);
-            return Ok(response);
-        }
+        [Authorize(Roles = Claims.level1)]
+        [HttpPost("transfer")]
+        public async Task<IActionResult> Transfer([FromBody] TransferRequestModel request) =>
+            await _transferenciaService.Transfer(request);
     }
 }

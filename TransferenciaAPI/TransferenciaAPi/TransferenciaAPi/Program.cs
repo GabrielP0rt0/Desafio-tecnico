@@ -14,8 +14,8 @@ builder.Services.AddSwaggerGen( c =>
 {
     c.SwaggerDoc("v1", new()
     {   
-        Title = "TodoAPI",
-        Version = "v1",
+        Title = "Teste",
+        Version = "v2",
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -45,7 +45,7 @@ builder.Services.AddScoped<AutorizacaoServices>();
 builder.Services.AddScoped<TransferenciaService>();
 //configurção do banco de dados, no meu caso estou utilizando Mysql
 builder.Services.AddDbContext<DBContext>(options =>
-    options.UseMySQL("server=localhost;port=3306;user=root;password=1234;database=ApiDbV2;")
+    options.UseMySQL("server=localhost;port=3306;user=root;password=root;database=desafiotecnico;")
 );
 builder.Services.AddAuthentication(x =>
 {
@@ -68,7 +68,7 @@ app.UseSwagger();
 
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "TodoAPI V1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Teste V2");
     c.RoutePrefix = string.Empty;
 });
 

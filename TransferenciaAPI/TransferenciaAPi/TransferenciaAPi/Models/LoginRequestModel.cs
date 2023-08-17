@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using TransferenciaAPi.Data.Entidades;
 
 namespace TransferenciaAPi.Models
 {
@@ -8,6 +9,16 @@ namespace TransferenciaAPi.Models
     public class LoginRequestModel
     {
         public string Email { get; set; }
-        public string Senha { get; set; }
+        public string Password { get; set; }
+        public (bool isValid, string err) Validate()
+        {
+            if (Email == null)
+                return (false, "Por favor preencha o email");
+
+            if (Password == null)
+                return (false, "Por favor preencha o email");
+
+            return (true, "");
+        }
     }
 }

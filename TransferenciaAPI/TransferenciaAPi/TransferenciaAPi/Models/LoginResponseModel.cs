@@ -7,14 +7,12 @@ namespace TransferenciaAPi.Models
     /// </summary>
     public class LoginResponseModel
     {
-        public int IdConta { get; set; }
-        public int IdContaPublic { get; set; }
-        public int IdContaPrivate { get; set; }
-        public string StatusMensagem { get; set; }
-        public bool StatusLogin { get; set; }
-        public decimal Saldo { get; set; }
+        public int IdAccount { get; set; }
+        public Guid TransferKey { get; set; }
+        public int IdUser { get; set; }
+        public string LoginMessage { get; set; }
+        public decimal Amount { get; set; }
         public string Token { get; set; }
-        public string Nome { get; set; }
+        public string Name { get; set; }
     }
-
 }

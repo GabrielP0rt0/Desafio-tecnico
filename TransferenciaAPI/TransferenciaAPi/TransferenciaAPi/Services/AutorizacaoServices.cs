@@ -1,16 +1,19 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using TransferenciaAPi.Core.ResponseBase;
 using TransferenciaAPi.Constans;
 using TransferenciaAPi.Data;
 using TransferenciaAPi.Data.Entidades;
 using TransferenciaAPi.Models;
+using Microsoft.AspNetCore.Mvc;
+using TransferenciaAPi.Errors;
 
 namespace TransferenciaAPi.Services
 {
-    public class AutorizacaoServices
+    public class AutorizacaoServices : SingleResponse
     {   //injetando context diretamente de DBContext
         private DBContext _context;
 
@@ -24,53 +27,50 @@ namespace TransferenciaAPi.Services
         /// </summary>
         /// <param name="Cadastrar"></param>
         /// <returns></returns>
-        public CadastroResponseModel Cadastrar(CadastroRequestModel request)
-        {   //verifica se já existe um email igual cadastrado
-            var usuario = _context.Usuarios.Where(x => x.Email.Equals(request.Email)).FirstOrDefault(); 
+        public async Task<IActionResult> Register(RegisterRequestModel request)
+        {
+            (bool isValid, string err) = request.Validate();
+            if (!isValid )
+                return ErrorResponse(err);
+            //verifica se já existe um email igual cadastrado
+            User? user = await _context.User.Where(x => x.Email.Equals(request.Email)).FirstOrDefaultAsync(); 
  
-            if (usuario != null)
-                return new()    //retorna devida mensagem e status caso já exista um email cadastrado
-                { 
-                    StatusCadastro = false,             
-                    MensagemCadastro = "Usuário já cadastrado",
-                    Token = "",
-                    IdConta = 0
-                };
+            if (user != null)
+                return ErrorResponse(TransferenciaErrors.UserExist);
             //caso não exista email semelhante, o usuário é criado
-            usuario = new()
+            user = new()
             {
-                Nome = request.Nome,
+                Name = request.Name,
                 Email = request.Email,
-                Senha = request.Senha
+                Password = request.Password,
+                Created = DateTime.Now,
+                Updated = DateTime.Now
             };
             //adiciona o usuário na tabela de usuários e aplica as mudanças
-            _context.Usuarios.Add(usuario);
-            _context.SaveChanges();
-            var idContaPrivate = GeraIdConta(1);
-            var idContaPublic = GeraIdConta(2);
-            //chama a private function que cria o id randomicamente 
+            await _context.User.AddAsync(user);
+            await _context.SaveChangesAsync();
             //transfere os dados criados para a tabela de Conta e adiciona um saldo de 100 reais automaticamente
-            _context.Conta.Add(new()
+            Account account = new Account
             {
-                IdConta = usuario.Id,
-                IdUsuarioPrivate = idContaPrivate,
-                IdUsuarioPublic = idContaPublic,
-                Saldo = 100
-            }) ;
-
-            _context.SaveChanges();
+                IdUser = user.Id,
+                TransferKey = Guid.NewGuid(),
+                Amount = 100m,
+                Created = DateTime.Now,
+                Updated = DateTime.Now
+            };
+            await _context.Account.AddAsync(account);
+            await _context.SaveChangesAsync();
             //cria o token de acesso
             string token = CriarToken();
             //retorna o status do cadastro
-            return new()
+            return SuccessResponse(new RegisterResponseModel
             {
                 Token = token,
-                MensagemCadastro = "tudo certo com o cadastro!",
-                StatusCadastro = true,
-                IdConta = usuario.Id,
-                IdContaPrivate = idContaPrivate,
-                IdContaPublic = idContaPublic
-            };
+                RegisterMessage = "Usuário cadastrado com sucesso!",
+                IdUser = user.Id,
+                IdAccount = account.Id,
+                TransferKey = account.TransferKey
+            });
 
         }
         /// <summary>
@@ -79,67 +79,61 @@ namespace TransferenciaAPi.Services
         /// </summary>
         /// <param name="Login"></param>
         /// <returns></returns>
-        public LoginResponseModel Login(LoginRequestModel request)
+        public async Task<IActionResult> Login(LoginRequestModel request)
         {
-            LoginResponseModel errorResponse = new() 
-            {
-                IdConta = 0,
-                StatusMensagem = "Senha incorreta ou usuário não cadastrado",
-                StatusLogin = false,
-                Saldo = 0,
-                Token = "",
-                Nome = ""
-            };
-            var usuario = _context.Usuarios.Where(x => x.Email.Equals(request.Email)).FirstOrDefault();
+            (bool isValid, string err) = request.Validate();
+            if (!isValid)
+                return ErrorResponse(err);
 
-            if (usuario == null || usuario.Senha != request.Senha)
-                return errorResponse;
+            User user = await _context.User.Where(x => x.Email.Equals(request.Email)).FirstOrDefaultAsync();
 
-            var usuarioConta = _context.Conta.Where(x => x.Id.Equals(usuario.Id)).FirstOrDefault();
+            if (user == null || user.Password != request.Password)
+                return ErrorResponse(TransferenciaErrors.LoginError);
 
-            if (usuarioConta == null)
-                return errorResponse;
+            Account userAccount = await _context.Account.Where(x => x.Id.Equals(user.Id)).FirstOrDefaultAsync();
+
+            if (userAccount == null)
+                return ErrorResponse(TransferenciaErrors.LoginError);
 
             string token = CriarToken();
-            LoginResponseModel retornaUsuario = new()
+
+
+            return SuccessResponse(new LoginResponseModel
             {
-                IdConta = usuarioConta.IdConta,
-                IdContaPrivate = usuarioConta.IdUsuarioPrivate,
-                IdContaPublic = usuarioConta.IdUsuarioPublic,
-                StatusMensagem = "login realizado com sucesso",
-                StatusLogin = true,
-                Saldo = usuarioConta.Saldo,
+                IdAccount = userAccount.Id,
+                IdUser = user.Id,
+                TransferKey = userAccount.TransferKey,
+                LoginMessage = "login realizado com sucesso",
+                Amount = userAccount.Amount,
                 Token = token,
-                Nome = usuario.Nome
-            };
-
-            return retornaUsuario;
+                Name = user.Name
+            });
         }
 
 
 
 
-        /// <summary>
-        /// Essa função gera um ID de conta único e de forma aleatória, buscando sempre um número entre 1 e 1000000000 e retorna para a função de criação de usuários
-        /// </summary>
-        /// <returns></returns>
-        private int GeraIdConta(int tipoConta)
-        {
-            int min = 1;            //número mínimo possível
-            int max = 1000000000;      //número máximo possível
+        ///// <summary>
+        ///// Essa função gera um ID de conta único e de forma aleatória, buscando sempre um número entre 1 e 1000000000 e retorna para a função de criação de usuários
+        ///// </summary>
+        ///// <returns></returns>
+        //private int GeraIdConta(int tipoConta)
+        //{
+        //    int min = 1;            //número mínimo possível
+        //    int max = 1000000000;      //número máximo possível
 
-            Random rnd = new Random();                  //função que cria o número de forma aleatória
-            int randomIdConta = rnd.Next(min, max);
-            //verifica se já existe um id da conta igual, caso exista a função é chamada novamente e um novo Id é criado, isso acontece até que 
-            //um número válido seja criado
-            var idContaPrivateUnico = _context.Conta.Where(x => x.IdUsuarioPrivate.Equals(randomIdConta)).FirstOrDefault();
-            var idContaPublicUnica = _context.Conta.Where(x => x.IdUsuarioPublic.Equals(randomIdConta)).FirstOrDefault();
-            if (tipoConta == 1 && idContaPrivateUnico != null)
-                return GeraIdConta(1);
-            if (tipoConta == 2 && idContaPublicUnica != null)
-                return GeraIdConta(2);
-            return randomIdConta;
-        }
+        //    Random rnd = new Random();                  //função que cria o número de forma aleatória
+        //    int randomIdConta = rnd.Next(min, max);
+        //    //verifica se já existe um id da conta igual, caso exista a função é chamada novamente e um novo Id é criado, isso acontece até que 
+        //    //um número válido seja criado
+        //    var idContaPrivateUnico = _context.Conta.Where(x => x.IdUsuarioPrivate.Equals(randomIdConta)).FirstOrDefault();
+        //    var idContaPublicUnica = _context.Conta.Where(x => x.IdUsuarioPublic.Equals(randomIdConta)).FirstOrDefault();
+        //    if (tipoConta == 1 && idContaPrivateUnico != null)
+        //        return GeraIdConta(1);
+        //    if (tipoConta == 2 && idContaPublicUnica != null)
+        //        return GeraIdConta(2);
+        //    return randomIdConta;
+        //}
         /// <summary>
         /// Essa função é responsável por gerar um token de acesso e retornar ao usuário ao se cadastrar ou logar
         /// </summary>
@@ -148,7 +142,7 @@ namespace TransferenciaAPi.Services
         {
             List<Claim> listClaims = new();
 
-            listClaims.Add(new Claim(ClaimTypes.Role, Claims.camada1));
+            listClaims.Add(new Claim(ClaimTypes.Role, Claims.level1));
 
             JwtSecurityTokenHandler tokenHandler = new();
 

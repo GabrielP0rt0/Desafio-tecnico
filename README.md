@@ -1,35 +1,76 @@
 # Transferencia API
----
+
 ## Tabelas utilizadas
 
-### Usuario
-A primeira tabela utilizada, esta utilizada para cadastro e login dos usuários, é nomeada usuario, com:
- * id - esse, uma chave primária, gerado automaticamente;
- * nome - Nome do usuário, esse item pode ser repetir;
- * email - Esse item é único, porém isso é definido via API;
- * senha - Senha atrelada a cada usuário.
+<img src="https://github.com/GabrielP0rt0/GabrielP0rt0/blob/main/imagens_readme/desafio_tecnico.png"/>
 
-<img src="https://github.com/GabrielP0rt0/GabrielP0rt0/blob/109c30b09fcd57e80b434a5203de5a5a68a6adde/imagens_readme/usuario.png"/>
+>Obs: as tabelas não possuem Foreing Keys, foram adicionadas a este diagrama lógico apenas para simbolizar a sua conexão 
+
+#### criando o DB
+
+```
+create database desafiotecnico;
+```
+
+### Usuario
+A primeira tabela utilizada, esta utilizada para cadastro e login dos usuários, é nomeada user, com:
+ * id - esse, uma chave primária, gerado automaticamente para indentificação do registro;
+ * name - Nome do usuário, esse item pode ser repetir;
+ * email - Esse item é único, porém isso é definido via API;
+ * password - Senha atrelada a cada usuário.
+
+```
+CREATE TABLE desafiotecnico.user (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) NOT NULL,
+  `email` varchar(60) NOT NULL,
+  `password` varchar(60) NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+```
 
 ---
 ### Conta
 A segunda tabela utilizada, esta para login e transferências, é a tabela conta que por sua vez possuí:
  * id - chave primária gerada automaticamente para identificar o usuário dentro desta tabela;
- * id_usuario_private - id que o usuário receberá para utilização do método de transferências;
- * id_usuario_public - id que deverá chegar ao usuário final através do frontend e para onde deve ser direcionado as transações;
- * saldo - o saldo disponível na conta do usuário.
+ * id_user - id utilizado para localizar o usuário na tabela user;
+ * transfer_key - Guid utilizada como chave de transferencia para o usuário fazer transações;
+ * amount - o saldo disponível na conta do usuário.
  
-<img src="https://github.com/GabrielP0rt0/GabrielP0rt0/blob/109c30b09fcd57e80b434a5203de5a5a68a6adde/imagens_readme/conta.png"/>
+```
+CREATE TABLE desafiotecnico.account (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_user` int NOT NULL,
+  `transfer_key` varchar(45) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+);
+```
 
 ---
 ### Extrato
 A terceira tabela utilizada, esta para consulta de extrato, é a tabela extrato que por sua vez possuí:
  * id - a identificação de cada transação feita, chave primária gerada automaticamente;
- * id_public_origem - identificação pública da conta a qual fez a transferêcia;
- * id_public_destino - identificação pública da conta a qual recebeu a transfêrencia;
- * valor - valor o qual foi transferido da origem para o destino;
- * data_hora - data e a hora na qual a transferência ocorreu.
+ * key_source_account - identificação da chave de transferencia pertencente a conta origem;
+ * key_destination_account - identificação da chave de transferencia pertencente a conta destino;
+ * amount - valor o qual foi transferido da origem para o destino;
  
- <img src="https://github.com/GabrielP0rt0/GabrielP0rt0/blob/109c30b09fcd57e80b434a5203de5a5a68a6adde/imagens_readme/extrato.png"/>
+```
+CREATE TABLE desafiotecnico.statement (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `key_source_account` varchar(100) NOT NULL,
+  `key_destination_account` varchar(100) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+```
  
  
