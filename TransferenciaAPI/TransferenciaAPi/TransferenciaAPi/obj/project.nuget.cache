@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qNHM9csY4DPeMW4BPuZrSyGZejG4QNiF0O9BiA5AyX459v3WHNlABeQ5gxzjAG9YKAZwEfuYe1FwXImsGq/vIQ==",
+  "dgSpecHash": "6WhKeYmitHE9GQOhwebgFUFbOdyYEQutGyUuTltyJw7/LQ2enCfdKbnTZp7zZteLGXkp+YOfKMiYx82/G4xuSA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\gabri\\Projetos\\Desafio-wise\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
+  "projectFilePath": "C:\\Users\\gabri\\Projetos\\Desafio-tecnico\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gabri\\.nuget\\packages\\google.protobuf\\3.19.4\\google.protobuf.3.19.4.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",

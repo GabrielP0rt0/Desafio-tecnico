@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gabri\\Projetos\\Desafio-wise\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj": {}
+    "C:\\Users\\gabri\\Projetos\\Desafio-tecnico\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gabri\\Projetos\\Desafio-wise\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj": {
+    "C:\\Users\\gabri\\Projetos\\Desafio-tecnico\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gabri\\Projetos\\Desafio-wise\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
+        "projectUniqueName": "C:\\Users\\gabri\\Projetos\\Desafio-tecnico\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
         "projectName": "TransferenciaAPi",
-        "projectPath": "C:\\Users\\gabri\\Projetos\\Desafio-wise\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
+        "projectPath": "C:\\Users\\gabri\\Projetos\\Desafio-tecnico\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\TransferenciaAPi.csproj",
         "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gabri\\Projetos\\Desafio-wise\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\obj\\",
+        "outputPath": "C:\\Users\\gabri\\Projetos\\Desafio-tecnico\\TransferenciaAPI\\TransferenciaAPi\\TransferenciaAPi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
